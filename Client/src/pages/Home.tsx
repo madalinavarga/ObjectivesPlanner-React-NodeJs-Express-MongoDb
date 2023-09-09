@@ -10,9 +10,11 @@ function Home() {
   if (error) return <p>An error has occurred: {(error as any).message}</p>;
 
   return (
-    <ul>
+    <ul className="bg-blue-200 ">
       {data.map((todo: any) => (
-        <li key={todo.id}>{todo.title}</li>
+        <li className="text-3xl font-bold underline" key={todo.id}>
+          {todo.title}
+        </li>
       ))}
     </ul>
   );
