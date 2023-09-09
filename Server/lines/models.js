@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const section = mongoose.model(
-  "sections",
+const line = mongoose.model(
+  "lines",
   Schema({
     id: {
       type: String,
     },
-    name: {
+    from: {
       type: String,
     },
-    objectives: {
-      type: [String],
+    to: {
+      type: String,
     },
   })
 );
 
-module.exports = section;
+module.exports = line;
