@@ -32,6 +32,9 @@ const objective = mongoose.model(
     endTime: {
       type: Date,
     },
+    sectionId: {
+      type: String,
+    }
   })
 );
 

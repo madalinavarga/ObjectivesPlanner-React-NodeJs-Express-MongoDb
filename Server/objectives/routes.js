@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const getAll = require("./controllers");
+const getAllBySection = require("./controllers");
 
-router.get("/", getAll);
+router.get("/", getAllBySection);
 
 module.exports = router;

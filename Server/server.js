@@ -1,7 +1,9 @@
 const express = require("express");
 const db = require("./db");
-
+var cors = require("cors");
 const app = express(); //create app
+
+app.use(cors());
 
 app.use(express.json()); //convert body to json
 app.use(express.urlencoded({ extended: false }));
