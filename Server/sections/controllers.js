@@ -11,4 +11,27 @@ const getAll = async (req, res) => {
   }
 };
 
-module.exports = getAll;
+const create = async (req, res) => {
+  try {
+    const newSection = await section.create(req.body);
+    res.status(200).json(newSection);
+  } catch (error) {
+    console.log("error:", error);
+  }
+};
+
+const remove = async (req, res) => {
+  console.log("remove 2222");
+  try {
+    const deletedSection = await section.findByIdAndDelete(req.params.id);
+    res.status(200).json(deletedSection);
+  } catch (error) {
+    console.log("error:", error);
+  }
+};
+
+module.exports = {
+  getAll,
+  create,
+  remove,
+};

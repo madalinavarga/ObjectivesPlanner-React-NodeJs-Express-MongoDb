@@ -10,9 +10,6 @@ const section = mongoose.model(
     name: {
       type: String,
     },
-    objectives: {
-      type: [String],
-    },
   })
 );
 

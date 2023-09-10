@@ -8,10 +8,11 @@ const objectiveSchema = z.object({
         x: z.number(),
         y: z.number()
     }),
-    status: z.enum([""]),
+    status: z.enum(["To Do", "In progress"]),
     startTime: z.coerce.date(),
     endTime: z.coerce.date(),
-    links: z.array(z.string())
+    links: z.array(z.string()),
+    sectionId: z.string()
 });
 
 export type Objective = z.infer<typeof objectiveSchema>;
