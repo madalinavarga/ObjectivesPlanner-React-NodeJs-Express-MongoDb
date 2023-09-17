@@ -9,11 +9,7 @@ app.use(express.json()); //convert body to json
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/v1/sections", require("./sections/routes"));
-app.use("/v1/sections/:id", require("./sections/routes"));
-
 app.use("/v1/objectives", require("./objectives/routes"));
-app.use("/v1/objectives/:id", require("./objectives/routes"));
-
 app.use("/v1/lines", require("./lines/routes"));
 
 app.listen(3000, () => console.log("Server started on http://localhost:3000/"));

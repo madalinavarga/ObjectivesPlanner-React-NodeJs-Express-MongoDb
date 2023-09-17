@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { getAll, create, remove } = require("./controllers");
+const { getByFilter, create, remove, update } = require("./controllers");
 
-router.get("/", getAll);
+router.get("/", getByFilter);
 router.post("/", create);
 router.delete("/:id", remove);
+router.put("/:id", update);
 
 module.exports = router;

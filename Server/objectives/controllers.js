@@ -11,6 +11,15 @@ const getAllBySection = async (req, res) => {
   }
 };
 
+const getById = async (req, res) => {
+  try {
+    const objectiveResponse = await objective.findById(req.params.id);
+    res.status(200).json(objectiveResponse);
+  } catch (error) {
+    console.log("error:", error);
+  }
+};
+
 const create = async (req, res) => {
   try {
     const newObjective = await objective.create(req.body);
@@ -31,6 +40,7 @@ const remove = async (req, res) => {
 
 module.exports = {
   getAllBySection,
+  getById,
   create,
   remove,
 };

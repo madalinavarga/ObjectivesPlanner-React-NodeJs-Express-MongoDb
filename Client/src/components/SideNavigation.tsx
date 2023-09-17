@@ -1,14 +1,23 @@
 import { useQuery } from "react-query";
+import { PlusCircle, XSquare } from "lucide-react";
+import { useState } from "react";
 
 import { create, getAll, remove } from "../services/sections";
 import { CreateSection, Section } from "../schemas/section";
+import SearchBar from "./SearchBar";
+import { useDebounce } from "../hooks/useDebounce";
 
 type Props = {
   setTargetSection: (section: Section) => void;
 };
 
 function SideNavigation({ ...props }: Props) {
-  const sectionsQuery = useQuery("sections", getAll);
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search);
+
+  const sectionsQuery = useQuery(["sections", debouncedSearch], () =>
+    getAll({ name: debouncedSearch })
+  );
 
   const handleObjectiveSelected = (section: Section) => {
     props.setTargetSection(section);
@@ -23,23 +32,30 @@ function SideNavigation({ ...props }: Props) {
   };
 
   const handleRemoveSection = async (section: Section) => {
-    console.log("remove");
     await remove(section._id);
     sectionsQuery.refetch();
   };
 
   return (
     <div className="bg-gray-700 text-white h-[100vh]">
-      <h1>Objectives planner</h1>
-      {<button onClick={handleAddSection}>Add +</button>}
-      <ul>
+      <div className="flex justify-between pb-8">
+        <h1 className="text-xl">Objectives planner</h1>
+        <button onClick={handleAddSection} className="hover:text-yellow-400">
+          <PlusCircle />
+        </button>
+      </div>
+      <SearchBar onChange={setSearch} />
+      <ul className="flex flex-col gap-y-4">
         {sectionsQuery.data?.map((section: Section) => (
-          <div key={section._id} className="flex flex-row gap-x-8">
+          <div key={section._id} className="flex flex-row gap-x-4">
             <li onClick={() => handleObjectiveSelected(section)} className="cursor-pointer">
               {section.name}
             </li>
-            <button className="cursor-pointer" onClick={() => handleRemoveSection(section)}>
-              X
+            <button
+              className="cursor-pointer hover:text-red-600"
+              onClick={() => handleRemoveSection(section)}
+            >
+              <XSquare />
             </button>
           </div>
         ))}

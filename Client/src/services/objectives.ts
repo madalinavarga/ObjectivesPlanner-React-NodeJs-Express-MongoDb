@@ -8,6 +8,13 @@ export const getAllBySection = async (id: string) => {
     return result;
 }
 
+export const getById = async (id: string) => {
+    const result: Objective = await fetch("http://localhost:3000/v1/objectives/" + id)
+        .then((res) => res.json());
+    console.log(id);
+    return result;
+}
+
 export const create = async (objective: Objective) => {
     await fetch("http://localhost:3000/v1/objectives", {
         method: "POST",
