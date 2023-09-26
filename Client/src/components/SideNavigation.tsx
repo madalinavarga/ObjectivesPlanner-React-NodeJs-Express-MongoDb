@@ -2,10 +2,10 @@ import { useQuery } from "react-query";
 import { PlusCircle, XSquare } from "lucide-react";
 import { useState } from "react";
 
-import { create, getAll, remove } from "../services/sections";
 import { CreateSection, Section } from "../schemas/section";
 import SearchBar from "./SearchBar";
 import { useDebounce } from "../hooks/useDebounce";
+import useSections from "../services/sections";
 
 type Props = {
   setTargetSection: (section: Section) => void;
@@ -14,6 +14,7 @@ type Props = {
 function SideNavigation({ ...props }: Props) {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search);
+  const { getAll, create, remove } = useSections();
 
   const sectionsQuery = useQuery(["sections", debouncedSearch], () =>
     getAll({ name: debouncedSearch })

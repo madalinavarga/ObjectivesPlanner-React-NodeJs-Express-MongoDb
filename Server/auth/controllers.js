@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
-  console.log("regiter");
   try {
     const { name, email, password } = req.body;
 
@@ -31,7 +30,6 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.log("login in");
   try {
     const { email, password } = req.body;
 

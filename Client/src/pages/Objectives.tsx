@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
 
-import { getAllBySection } from "../services/objectives";
+import { useObjectives } from "../services/objectives";
 import { Objective } from "../schemas/objective";
 import SideNavigation from "../components/SideNavigation";
 import { Section } from "../schemas/section";
@@ -14,6 +14,7 @@ import EditableCard from "../components/EditableCard";
 function Objectives() {
   const [targetSection, setTargetSection] = useState<Section>();
   const [isModalOpen, setModalOpen] = useState(false);
+  const { getAllBySection } = useObjectives();
 
   const objectivesQuery = useQuery(
     ["objectives", targetSection?._id],

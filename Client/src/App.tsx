@@ -1,20 +1,19 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { useContext } from "react";
 
 import Objectives from "./pages/Objectives";
 import Objective from "./pages/Objective";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { ContextProvider, RootContext } from "./providers/rootContext";
+import { ContextProvider } from "./providers/rootContext";
 
 function App() {
-  const rootContext = useContext(RootContext);
   const navigator = useNavigate();
   const location = useLocation();
+  let token = localStorage.getItem("token");
 
   if (
-    (rootContext?.token == null && location.pathname !== "/Login") ||
-    (rootContext?.token == null && location.pathname !== "/")
+    (token==null && location.pathname != "/Login") ||
+    (token == null && location.pathname != "/")
   ) {
     navigator("/Login");
   }
