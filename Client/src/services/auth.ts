@@ -26,3 +26,15 @@ export const registerAccount = async (data: RegisterSchema) => {
         body: JSON.stringify(data)
     }).then((res) => res.json());
 }
+
+export const refreshToken = async (token: string) => {
+    const headers = {
+        "Content-Type": 'application/json',
+        Authorization: `Bearer ${token}`
+    }
+   return  await fetch("http://localhost:3000/v1/auth/refresh", {
+        method: "POST",
+        headers,
+        credentials: 'include',
+    }).then((res) => res.json());
+}

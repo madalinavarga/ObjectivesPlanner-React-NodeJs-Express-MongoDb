@@ -20,5 +20,4 @@ app.use("/v1/objectives", require("./objectives/routes"));
 app.use("/v1/lines", require("./lines/routes"));
 app.use("/v1/auth", require("./auth/routes"));
 
-
 app.listen(3000, () => console.log("Server started on http://localhost:3000/"));

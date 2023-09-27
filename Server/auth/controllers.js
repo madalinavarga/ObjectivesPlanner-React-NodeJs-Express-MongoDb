@@ -1,8 +1,6 @@
 const user = require("./models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-
 
 const registerUser = async (req, res) => {
   try {
@@ -32,7 +30,6 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.log("login");
   try {
     const { email, password } = req.body;
 
@@ -70,22 +67,27 @@ const loginUser = async (req, res) => {
 };
 
 const refreshToken = async (req, res) => {
-  console.log("in refresh");
   try {
-    console.log(req.cookies);
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
     const refreshToken = req.cookies["refreshToken"];
-    if (!refreshToken) {
+
+    if (!token && !refreshToken) {
       return res.status(403).send("Access denied");
     }
-    const verified = jwt.verify(token, process.env.REFRESH_TOKEN_KEY);
-    const accessToken = jwt.sign({ user: verified.user }, process.env.TOKEN_KEY, {
+    const { email } = jwt.verify(token, process.env.TOKEN_KEY, { ignoreExpiration: true });
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);
+
+    const newToken = jwt.sign({ email }, process.env.TOKEN_KEY, {
       expiresIn: "15m",
     });
-    res.status(200).json(accessToken);
+    res.status(200).json(newToken);
   } catch (error) {
     console.log("error:", error);
+    return res.status(500).send("A sarit peste");
   }
 };
+
 module.exports = {
   registerUser,
   loginUser,
