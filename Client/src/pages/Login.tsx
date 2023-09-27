@@ -20,7 +20,8 @@ function Login() {
 
   const onSubmit = async (loginData: LoginSchema) => {
     var response = await login(loginData);
-    if (response.status === 200) {
+    console.log("headers", response?.headers.get("Set-Cookie"), response?.headers.getSetCookie());
+    if (response?.status === 200) {
       const token = await response.json();
       rootContext?.setToken(token);
       localStorage.setItem("token", token);

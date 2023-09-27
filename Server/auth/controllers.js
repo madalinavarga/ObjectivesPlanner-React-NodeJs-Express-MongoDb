@@ -1,6 +1,8 @@
 const user = require("./models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
+
 
 const registerUser = async (req, res) => {
   try {
@@ -30,6 +32,7 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+  console.log("login");
   try {
     const { email, password } = req.body;
 
@@ -53,17 +56,38 @@ const loginUser = async (req, res) => {
       },
       process.env.TOKEN_KEY,
       {
-        expiresIn: "2h",
+        expiresIn: "15m",
       }
     );
 
+    const refreshToken = jwt.sign({ email }, process.env.REFRESH_TOKEN_KEY, { expiresIn: "1d" });
+
+    res.cookie("refreshToken", refreshToken);
     res.status(200).json(token);
   } catch (error) {
     console.log("error:", error);
   }
 };
 
+const refreshToken = async (req, res) => {
+  console.log("in refresh");
+  try {
+    console.log(req.cookies);
+    const refreshToken = req.cookies["refreshToken"];
+    if (!refreshToken) {
+      return res.status(403).send("Access denied");
+    }
+    const verified = jwt.verify(token, process.env.REFRESH_TOKEN_KEY);
+    const accessToken = jwt.sign({ user: verified.user }, process.env.TOKEN_KEY, {
+      expiresIn: "15m",
+    });
+    res.status(200).json(accessToken);
+  } catch (error) {
+    console.log("error:", error);
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
+  refreshToken,
 };
