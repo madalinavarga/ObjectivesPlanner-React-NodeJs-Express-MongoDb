@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import { Objective } from "../schemas/objective";
-import { create } from "../services/objectives";
+import { useObjectives } from "../services/objectives";
 import { useQueryClient } from "react-query";
 
 type Props = {
@@ -14,6 +14,7 @@ function Modal({ ...props }: Props) {
   const { register, handleSubmit } = useForm<Objective>();
   const dialog = useRef<HTMLDialogElement>(null);
   const queryClient = useQueryClient();
+  const { create } = useObjectives();
 
   useEffect(() => {
     if (props.isModalOpen) {

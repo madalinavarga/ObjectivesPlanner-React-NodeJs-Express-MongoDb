@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { RootContext } from "../providers/rootContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const {
@@ -15,13 +16,15 @@ function Login() {
     resolver: zodResolver(loginSchema),
   });
   const rootContext = useContext(RootContext);
+  const navigator = useNavigate();
 
   const onSubmit = async (loginData: LoginSchema) => {
     var response = await login(loginData);
-    if (response.status === 200) {
+    if (response?.status === 200) {
       const token = await response.json();
       rootContext?.setToken(token);
-      window.location.href = "/Objectives";
+      localStorage.setItem("token", token);
+      navigator("/Objectives");
     }
   };
   return (

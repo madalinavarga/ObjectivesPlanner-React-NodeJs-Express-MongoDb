@@ -1,10 +1,17 @@
 const express = require("express");
 const db = require("./db");
+const cookieParser = require("cookie-parser");
 var cors = require("cors");
+
 const app = express(); //create app
+app.use(cookieParser());
 
-app.use(cors());
-
+var corsOptions = {
+  origin: "http://localhost:5173",
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(express.json()); //convert body to json
 app.use(express.urlencoded({ extended: false }));
 

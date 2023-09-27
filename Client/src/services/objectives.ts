@@ -1,32 +1,48 @@
+import { RootContext } from "../providers/rootContext";
+import { useContext } from "react";
 import { Objective } from "../schemas/objective";
 
+export function useObjectives() {
 
-export const getAllBySection = async (id: string) => {
-    const result: Objective[] = await fetch("http://localhost:3000/v1/objectives?sectionId=" + id)
-        .then((res) => res.json());
-    console.log(id);
-    return result;
-}
+    const rootContext = useContext(RootContext)
+    const headers = {
+        "Content-Type": 'application/json',
+        Authorization: `Bearer ${rootContext?.token}`
+    }
 
-export const getById = async (id: string) => {
-    const result: Objective = await fetch("http://localhost:3000/v1/objectives/" + id)
-        .then((res) => res.json());
-    console.log(id);
-    return result;
-}
 
-export const create = async (objective: Objective) => {
-    await fetch("http://localhost:3000/v1/objectives", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(objective),
-    }).then((res) => res.json());
-}
+    const getAllBySection = async (id: string) => {
+        const result: Objective[] = await fetch("http://localhost:3000/v1/objectives?sectionId=" + id, { headers })
+            .then((res) => res.json());
+        return result;
+    }
 
-export const remove = async (id: String) => {
-    await fetch(`http://localhost:3000/v1/objectives/${id}`, {
-        method: "DELETE",
-    }).then((res) => res.json());
+    const getById = async (id: string) => {
+        const result: Objective = await fetch("http://localhost:3000/v1/objectives/" + id, { headers })
+            .then((res) => res.json());
+        return result;
+    }
+
+    const create = async (objective: Objective) => {
+        await fetch("http://localhost:3000/v1/objectives", {
+            method: "POST",
+            headers,
+            body: JSON.stringify(objective),
+        }).then((res) => res.json());
+    }
+
+    const remove = async (id: String) => {
+        await fetch(`http://localhost:3000/v1/objectives/${id}`, {
+            method: "DELETE",
+            headers
+        }).then((res) => res.json());
+    }
+
+    return {
+        getAllBySection,
+        getById,
+        create,
+        remove
+    }
+
 }

@@ -1,6 +1,6 @@
 import { useState, ChangeEventHandler, useEffect } from "react";
 import { Section } from "../schemas/section";
-import { update } from "../services/sections";
+import useSections from "../services/sections";
 
 type Props = {
   section: Section;
@@ -9,6 +9,7 @@ type Props = {
 function EditableCard({ section }: Props) {
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [newText, setNewText] = useState(section.name);
+  const { update } = useSections();
 
   useEffect(() => {
     setNewText(section.name);
@@ -22,7 +23,6 @@ function EditableCard({ section }: Props) {
     setIsInEditMode(false);
     section.name = newText;
     update(section);
-    console.log("updated");
   };
 
   return (

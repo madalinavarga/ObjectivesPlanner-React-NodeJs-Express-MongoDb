@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Objective } from "../schemas/objective";
-import { remove } from "../services/objectives";
+import { useObjectives } from "../services/objectives";
 import { useQueryClient } from "react-query";
 import { X } from "lucide-react";
 
@@ -11,6 +11,7 @@ type Props = {
 function Card({ objective }: Props) {
   const navigation = useNavigate();
   const queryClient = useQueryClient();
+  const { remove } = useObjectives();
 
   const handleRemoveObjective = async (id: String) => {
     await remove(id);
@@ -18,7 +19,6 @@ function Card({ objective }: Props) {
   };
 
   const handleOpenObjective = (id: String) => {
-    console.log("CLICK");
     navigation(`${id}`);
   };
   return (
