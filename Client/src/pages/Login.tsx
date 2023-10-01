@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { RootContext } from "../providers/rootContext";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 
 function Login() {
   const {
@@ -17,15 +18,19 @@ function Login() {
   });
   const rootContext = useContext(RootContext);
   const navigator = useNavigate();
+  const loginMutation = useMutation(login);
 
   const onSubmit = async (loginData: LoginSchema) => {
-    var response = await login(loginData);
-    if (response?.status === 200) {
-      const token = await response.json();
-      rootContext?.setToken(token);
-      localStorage.setItem("token", token);
-      navigator("/Objectives");
-    }
+    loginMutation.mutateAsync(loginData, {
+      onSuccess: async (response) => {
+        const token = await response?.json();
+        rootContext?.setToken(token);
+        if (token != null) {
+          localStorage.setItem("token", token);
+        }
+        navigator("/Objectives");
+      },
+    });
   };
   return (
     <div className=" flex bg-gray-800 w-[100vw] h-[100vh] justify-center items-center">

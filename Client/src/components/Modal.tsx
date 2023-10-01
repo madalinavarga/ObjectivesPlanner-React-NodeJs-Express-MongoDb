@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import { Objective } from "../schemas/objective";
 import { useObjectives } from "../services/objectives";
-import { useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -17,6 +17,7 @@ function Modal({ ...props }: Props) {
   const queryClient = useQueryClient();
   const { create } = useObjectives();
   const navigator = useNavigate();
+  const crateMutation = useMutation(create);
 
   useEffect(() => {
     if (props.isModalOpen) {
@@ -29,9 +30,13 @@ function Modal({ ...props }: Props) {
   const onSubmit = async (newObjective: Objective) => {
     newObjective.status = "To Do";
     newObjective.sectionId = props.targetSectionId;
-    await create(newObjective);
-    props.setModalOpen(false);
-    queryClient.invalidateQueries({ queryKey: ["objectives"] });
+
+      crateMutation.mutate(newObjective, {
+      onSuccess: () => {
+        props.setModalOpen(false);
+        queryClient.invalidateQueries({ queryKey: ["objectives"] });
+      },
+    });
   };
 
   const handleCancel = () => {

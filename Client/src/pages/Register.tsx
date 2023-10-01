@@ -2,13 +2,15 @@ import { useForm } from "react-hook-form";
 import { registerAccount } from "../services/auth";
 import { RegisterSchema } from "../schemas/auth";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "react-query";
 
 function Register() {
   const { register, handleSubmit } = useForm<RegisterSchema>();
   const navigator = useNavigate();
+  const registerMutation = useMutation(registerAccount);
 
   const onSubmit = async (registerData: RegisterSchema) => {
-    await registerAccount(registerData);
+    registerMutation.mutateAsync(registerData);
     navigator("/Login");
   };
 

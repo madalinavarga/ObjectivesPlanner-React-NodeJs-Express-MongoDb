@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Objective } from "../schemas/objective";
 import { useObjectives } from "../services/objectives";
-import { useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { X } from "lucide-react";
 
 type Props = {
@@ -12,10 +12,14 @@ function Card({ objective }: Props) {
   const navigation = useNavigate();
   const queryClient = useQueryClient();
   const { remove } = useObjectives();
+  const removeMutation = useMutation(remove);
 
   const handleRemoveObjective = async (id: String) => {
-    await remove(id);
-    queryClient.invalidateQueries({ queryKey: ["objectives"] });
+    await removeMutation.mutateAsync(id,{
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["objectives"] });
+      },
+    });
   };
 
   const handleOpenObjective = (id: String) => {
