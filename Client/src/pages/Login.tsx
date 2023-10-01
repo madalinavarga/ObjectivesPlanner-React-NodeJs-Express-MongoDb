@@ -29,7 +29,7 @@ function Login() {
   };
   return (
     <div className=" flex bg-gray-800 w-[100vw] h-[100vh] justify-center items-center">
-      <form className="flex flex-col bg-gray-700 border rounded justify-center items-start p-4 w-[25vw]">
+      <form className="flex flex-col bg-gray-700 border rounded justify-center items-center p-4 w-[25vw]">
         <h1 className="text-2xl mb-8">Intra in cont</h1>
         <label>Email</label>
         <input type="text" {...register("email")} />

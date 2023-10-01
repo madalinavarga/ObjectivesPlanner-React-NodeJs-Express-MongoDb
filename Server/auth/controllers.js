@@ -53,7 +53,7 @@ const loginUser = async (req, res) => {
       },
       process.env.TOKEN_KEY,
       {
-        expiresIn: "15m",
+        expiresIn: "15s",
       }
     );
 
@@ -79,7 +79,7 @@ const refreshToken = async (req, res) => {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY);
 
     const newToken = jwt.sign({ email }, process.env.TOKEN_KEY, {
-      expiresIn: "15m",
+      expiresIn: "15s",
     });
     res.status(200).json(newToken);
   } catch (error) {

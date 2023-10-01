@@ -3,7 +3,6 @@ const section = require("./models");
 const getAll = async (req, res) => {
   try {
     const sections = await section.find({});
-    console.log(sections);
     res.status(200).json(sections);
   } catch (error) {
     console.log("error: ", error);
@@ -34,6 +33,7 @@ const create = async (req, res) => {
     res.status(200).json(newSection);
   } catch (error) {
     console.log("error:", error);
+    res.status(500);
   }
 };
 
@@ -43,15 +43,17 @@ const remove = async (req, res) => {
     res.status(200).json(deletedSection);
   } catch (error) {
     console.log("error:", error);
+    res.status(500);
   }
 };
 
 const update = async (req, res) => {
   try {
-    const updatedSection = await section.findOneAndUpdate(req.body);
+    const updatedSection = await section.updateOne({ _id: req.body._id }, { name: req.body.name });
     res.status(200).json(updatedSection);
   } catch (error) {
     console.log("error:", error);
+    res.status(500);
   }
 };
 

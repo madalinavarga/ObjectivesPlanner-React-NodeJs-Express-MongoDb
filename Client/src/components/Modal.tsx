@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { Objective } from "../schemas/objective";
 import { useObjectives } from "../services/objectives";
 import { useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   setModalOpen: Function;
@@ -15,6 +16,7 @@ function Modal({ ...props }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const queryClient = useQueryClient();
   const { create } = useObjectives();
+  const navigator = useNavigate();
 
   useEffect(() => {
     if (props.isModalOpen) {
@@ -34,6 +36,8 @@ function Modal({ ...props }: Props) {
 
   const handleCancel = () => {
     props.setModalOpen(false);
+    //unde merge?
+    navigator("/Objectives");
   };
 
   return (

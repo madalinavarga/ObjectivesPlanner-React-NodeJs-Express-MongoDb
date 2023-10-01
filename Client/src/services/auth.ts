@@ -32,7 +32,7 @@ export const refreshToken = async (token: string) => {
         "Content-Type": 'application/json',
         Authorization: `Bearer ${token}`
     }
-   return  await fetch("http://localhost:3000/v1/auth/refresh", {
+    return await fetch("http://localhost:3000/v1/auth/refresh", {
         method: "POST",
         headers,
         credentials: 'include',

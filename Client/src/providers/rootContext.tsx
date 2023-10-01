@@ -20,13 +20,20 @@ export function ContextProvider({ children }: Props) {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    setTimeout(() => {
-      getRefreshToken(token);
-    }, 14 * 1000 * 60);
+    if (!token) return;
+
+    const timeout = setTimeout(() => {
+      getRefreshToken();
+    }, 13 * 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [token]);
 
-  const getRefreshToken = async (token: string) => {
-    const newToken = await refreshToken(token);
+  const getRefreshToken = async () => {
+    const tokenFromLocalStorage = localStorage.getItem("token");
+    const newToken = await refreshToken(tokenFromLocalStorage!);
     setToken(newToken);
     localStorage.setItem("token", newToken);
   };
