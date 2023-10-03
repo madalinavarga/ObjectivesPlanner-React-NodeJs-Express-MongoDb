@@ -17,7 +17,7 @@ export const RootContext = createContext<ContextReturn | undefined>(undefined);
 
 //Step 2 create function ( naming convention "ContextProvider" -> Step 3 {children}
 export function ContextProvider({ children }: Props) {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   useEffect(() => {
     if (!token) return;

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PlusCircle, XSquare } from "lucide-react";
 import { useState } from "react";
 
@@ -17,6 +17,7 @@ function SideNavigation({ ...props }: Props) {
   const { getAll, create, remove } = useSections();
   const createMutation = useMutation(create);
   const removeMutation = useMutation(remove);
+  const queryClient = useQueryClient();
 
   const sectionsQuery = useQuery(["sections", debouncedSearch], () =>
     getAll({ name: debouncedSearch })
@@ -30,16 +31,18 @@ function SideNavigation({ ...props }: Props) {
     const section: CreateSection = {
       name: "New section",
     };
-    createMutation.mutateAsync(section, {
+    createMutation.mutate(section, {
       onSuccess: () => {
-        sectionsQuery.refetch();
+        queryClient.invalidateQueries({ queryKey: ["sections"] });
       },
     });
   };
 
   const handleRemoveSection = async (section: Section) => {
-    removeMutation.mutateAsync(section._id);
-    sectionsQuery.refetch();
+    await removeMutation.mutateAsync(section._id);
+    if (removeMutation.isSuccess) {
+      queryClient.invalidateQueries({ queryKey: ["sections"] });
+    }
   };
 
   return (

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { RootContext } from "../providers/rootContext";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 function Login() {
   const {

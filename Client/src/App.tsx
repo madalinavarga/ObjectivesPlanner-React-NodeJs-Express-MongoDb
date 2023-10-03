@@ -5,7 +5,7 @@ import Objective from "./pages/Objective";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { RootContext } from "./providers/rootContext";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 function App() {
   const navigator = useNavigate();

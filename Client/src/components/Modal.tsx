@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useRef } from "react";
 import { Objective } from "../schemas/objective";
 import { useObjectives } from "../services/objectives";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 type Props = {

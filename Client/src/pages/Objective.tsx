@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useObjectives } from "../services/objectives";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Objective } from "../schemas/objective";
 import Layout from "../components/Layout";
 import ObjectiveNavigator from "../components/ObjectiveNavigator";

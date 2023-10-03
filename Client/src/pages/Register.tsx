@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { registerAccount } from "../services/auth";
 import { RegisterSchema } from "../schemas/auth";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 function Register() {
   const { register, handleSubmit } = useForm<RegisterSchema>();
