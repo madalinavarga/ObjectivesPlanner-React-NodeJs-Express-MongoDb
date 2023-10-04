@@ -19,7 +19,6 @@ function SideNavigation({ ...props }: Props) {
   const removeMutation = useMutation(remove);
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
-  const [pageCount, setPageCount] = useState(2);
 
   const sectionsQuery = useQuery(["sections", debouncedSearch, page], () =>
     getAll({ name: debouncedSearch, page: `${page}` })
@@ -48,7 +47,7 @@ function SideNavigation({ ...props }: Props) {
   };
 
   const handleNextPage = async () => {
-    if (page == 2) {
+    if (page == sectionsQuery.data?.totalPages) {
       return setPage(page);
     }
     setPage(page + 1);
@@ -71,7 +70,7 @@ function SideNavigation({ ...props }: Props) {
       </div>
       <SearchBar onChange={setSearch} />
       <ul className="flex flex-col gap-y-4">
-        {sectionsQuery.data?.map((section: Section) => (
+        {sectionsQuery.data?.sections.map((section: Section) => (
           <div key={section._id} className="flex flex-row gap-x-4">
             <li onClick={() => handleObjectiveSelected(section)} className="cursor-pointer">
               {section.name}
@@ -95,7 +94,7 @@ function SideNavigation({ ...props }: Props) {
         </button>
         <button
           className="bg-blue-400 px-2 hover:bg-blue-600 disabled:opacity-25"
-          disabled={page == pageCount}
+          disabled={page == sectionsQuery.data?.totalPages}
           onClick={handleNextPage}
         >
           Next

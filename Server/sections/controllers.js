@@ -29,9 +29,8 @@ const getByFilter = async (req, res) => {
       .find({})
       .skip((page - 1) * Page_Size)
       .limit(Page_Size);
-    console.log("Pg number: ", page, sections);
 
-    res.status(200).json(sections);
+    res.status(200).json({sections,totalPages});
   } catch (error) {
     console.log("error: ", error);
   }

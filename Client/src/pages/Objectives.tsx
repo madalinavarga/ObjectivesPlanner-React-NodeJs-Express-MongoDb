@@ -30,36 +30,36 @@ function Objectives() {
 
   return (
     <Layout leftContent={<SideNavigation setTargetSection={setTargetSection} />}>
-      <div className="p-4">
-        <div className="flex flex-row gap-16 mb-8">
-          {targetSection?.name && (
-            <h1 className="text-xl flex gap-x-4">
-              Section: <EditableCard section={targetSection} />
-            </h1>
-          )}
+        <div className="p-4">
+          <div className="flex flex-row gap-16 mb-8">
+            {targetSection?.name && (
+              <h1 className="text-xl flex gap-x-4">
+                Section: <EditableCard section={targetSection} />
+              </h1>
+            )}
+            {targetSection && (
+              <button onClick={handleAddObjective} className="hover:text-yellow-400">
+                <PlusCircle />
+              </button>
+            )}
+          </div>
+          <ul className="flex gap-x-8">
+            {objectivesQuery.data?.map((objective: Objective) => {
+              return (
+                <div className="flex flex-row gap-x-4">
+                  <Card objective={objective} />
+                </div>
+              );
+            })}
+          </ul>
           {targetSection && (
-            <button onClick={handleAddObjective} className="hover:text-yellow-400">
-              <PlusCircle />
-            </button>
+            <Modal
+              setModalOpen={setModalOpen}
+              isModalOpen={isModalOpen}
+              targetSectionId={targetSection._id}
+            />
           )}
         </div>
-        <ul className="flex gap-x-8">
-          {objectivesQuery.data?.map((objective: Objective) => {
-            return (
-              <div className="flex flex-row gap-x-4">
-                <Card objective={objective} />
-              </div>
-            );
-          })}
-        </ul>
-        {targetSection && (
-          <Modal
-            setModalOpen={setModalOpen}
-            isModalOpen={isModalOpen}
-            targetSectionId={targetSection._id}
-          />
-        )}
-      </div>
     </Layout>
   );
 }

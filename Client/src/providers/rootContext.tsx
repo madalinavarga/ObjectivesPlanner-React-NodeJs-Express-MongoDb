@@ -24,7 +24,7 @@ export function ContextProvider({ children }: Props) {
 
     const timeout = setTimeout(() => {
       getRefreshToken();
-    }, 13 * 1000);
+    }, 13 * 1000 * 60);
 
     return () => {
       clearTimeout(timeout);

@@ -12,7 +12,7 @@ function useSections() {
 
     const getAll = async (filters: { name?: string, page?: string }) => {
         const queryFilters = new URLSearchParams(filters).toString();
-        const result: Section[] = await fetch("http://localhost:3000/v1/sections?" + queryFilters, { headers })
+        const result: { sections: Section[], totalPages: number } = await fetch("http://localhost:3000/v1/sections?" + queryFilters, { headers })
             .then((res) => res.json());
         return result;
     }
