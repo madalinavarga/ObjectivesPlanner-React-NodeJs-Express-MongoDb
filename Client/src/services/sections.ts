@@ -10,7 +10,7 @@ function useSections() {
         Authorization: `Bearer ${rootContext?.token}`
     }
 
-    const getAll = async (filters: { name?: string }) => {
+    const getAll = async (filters: { name?: string, page?: string }) => {
         const queryFilters = new URLSearchParams(filters).toString();
         const result: Section[] = await fetch("http://localhost:3000/v1/sections?" + queryFilters, { headers })
             .then((res) => res.json());

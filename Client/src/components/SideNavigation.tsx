@@ -18,9 +18,11 @@ function SideNavigation({ ...props }: Props) {
   const createMutation = useMutation(create);
   const removeMutation = useMutation(remove);
   const queryClient = useQueryClient();
+  const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(2);
 
-  const sectionsQuery = useQuery(["sections", debouncedSearch], () =>
-    getAll({ name: debouncedSearch })
+  const sectionsQuery = useQuery(["sections", debouncedSearch, page], () =>
+    getAll({ name: debouncedSearch, page: `${page}` })
   );
 
   const handleObjectiveSelected = (section: Section) => {
@@ -43,6 +45,20 @@ function SideNavigation({ ...props }: Props) {
     if (removeMutation.isSuccess) {
       queryClient.invalidateQueries({ queryKey: ["sections"] });
     }
+  };
+
+  const handleNextPage = async () => {
+    if (page == 2) {
+      return setPage(page);
+    }
+    setPage(page + 1);
+  };
+
+  const handlePreviousPage = async () => {
+    if (page == 1) {
+      setPage(page);
+    }
+    setPage(page - 1);
   };
 
   return (
@@ -69,6 +85,22 @@ function SideNavigation({ ...props }: Props) {
           </div>
         ))}
       </ul>
+      <div className="flex gap-x-4 mt-8">
+        <button
+          className="bg-blue-400 px-2 hover:bg-blue-600 disabled:opacity-25"
+          disabled={page == 1}
+          onClick={handlePreviousPage}
+        >
+          Prev
+        </button>
+        <button
+          className="bg-blue-400 px-2 hover:bg-blue-600 disabled:opacity-25"
+          disabled={page == pageCount}
+          onClick={handleNextPage}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }

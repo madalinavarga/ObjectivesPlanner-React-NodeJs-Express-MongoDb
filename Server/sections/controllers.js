@@ -1,4 +1,5 @@
 const section = require("./models");
+const Page_Size = 5;
 
 const getAll = async (req, res) => {
   try {
@@ -12,15 +13,24 @@ const getAll = async (req, res) => {
 
 const getByFilter = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
     const filter = req.query.name;
+    const totalSections = await section.countDocuments();
+    const totalPages = Math.ceil(totalSections / Page_Size);
+
     if (filter) {
       const sections = await section.find({ name: { $regex: filter, $options: "i" } });
       console.log(sections);
       res.status(200).json(sections);
       return;
     }
-    const sections = await section.find();
-    console.log(sections);
+
+    const sections = await section
+      .find({})
+      .skip((page - 1) * Page_Size)
+      .limit(Page_Size);
+    console.log("Pg number: ", page, sections);
+
     res.status(200).json(sections);
   } catch (error) {
     console.log("error: ", error);
