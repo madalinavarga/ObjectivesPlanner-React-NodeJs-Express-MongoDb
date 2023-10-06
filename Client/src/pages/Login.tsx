@@ -33,14 +33,14 @@ function Login() {
     });
   };
   return (
-    <div className=" flex bg-gray-800 w-[100vw] h-[100vh] justify-center items-center">
+    <div className=" flex text-white  bg-gray-800 w-[100vw] h-[100vh] justify-center items-center">
       <form className="flex flex-col bg-gray-700 border rounded justify-center items-center p-4 w-[25vw]">
         <h1 className="text-2xl mb-8">Intra in cont</h1>
         <label>Email</label>
-        <input type="text" {...register("email")} />
+        <input type="text" className="text-black" {...register("email")} />
         {errors?.email?.message && <p className="text-red-500">{errors?.email?.message}</p>}
         <label>Password</label>
-        <input type="password" {...register("password")} />
+        <input type="password" className="text-black" {...register("password")} />
         {errors?.password?.message && <p className="text-red-500">{errors?.password?.message}</p>}
 
         <div>

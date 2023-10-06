@@ -15,7 +15,7 @@ function Register() {
   };
 
   return (
-    <div className=" flex bg-gray-800 w-[100vw] h-[100vh] justify-center items-center">
+    <div className="flex text-white bg-gray-800 w-[100vw] h-[100vh] justify-center items-center">
       <form className="flex flex-col bg-gray-700 border rounded justify-center items-center p-4 w-[25vw]">
         <h1 className="text-2xl mb-8">Create account</h1>
         <label>Name</label>

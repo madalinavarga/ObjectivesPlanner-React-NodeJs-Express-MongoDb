@@ -1,28 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { PlusCircle } from "lucide-react";
 
-import { useObjectives } from "../services/objectives";
-import { Objective } from "../schemas/objective";
 import SideNavigation from "../components/SideNavigation";
 import { Section } from "../schemas/section";
 import Modal from "../components/Modal";
 import Layout from "../components/Layout";
-import Card from "../components/Card";
 import EditableCard from "../components/EditableCard";
+import Spinner from "../components/Spinner";
+import ObjectivesCard from "../components/ObjectivesCards";
 
 function Objectives() {
   const [targetSection, setTargetSection] = useState<Section>();
   const [isModalOpen, setModalOpen] = useState(false);
-  const { getAllBySection } = useObjectives();
-
-  const objectivesQuery = useQuery(
-    ["objectives", targetSection?._id],
-    () => getAllBySection(targetSection?._id!),
-    {
-      enabled: targetSection?._id ? true : false,
-    }
-  );
 
   const handleAddObjective = () => {
     setModalOpen(true);
@@ -30,6 +19,7 @@ function Objectives() {
 
   return (
     <Layout leftContent={<SideNavigation setTargetSection={setTargetSection} />}>
+      <Suspense fallback={<Spinner />}>
         <div className="p-4">
           <div className="flex flex-row gap-16 mb-8">
             {targetSection?.name && (
@@ -43,15 +33,7 @@ function Objectives() {
               </button>
             )}
           </div>
-          <ul className="flex gap-x-8">
-            {objectivesQuery.data?.map((objective: Objective) => {
-              return (
-                <div className="flex flex-row gap-x-4">
-                  <Card objective={objective} />
-                </div>
-              );
-            })}
-          </ul>
+          <ObjectivesCard targetSection={targetSection} />
           {targetSection && (
             <Modal
               setModalOpen={setModalOpen}
@@ -60,6 +42,7 @@ function Objectives() {
             />
           )}
         </div>
+      </Suspense>
     </Layout>
   );
 }

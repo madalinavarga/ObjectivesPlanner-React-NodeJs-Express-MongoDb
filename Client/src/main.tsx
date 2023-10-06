@@ -8,7 +8,13 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+})
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
