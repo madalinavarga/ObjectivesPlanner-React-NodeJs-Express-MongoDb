@@ -4,7 +4,7 @@ const Page_Size = 5;
 const getAll = async (req, res) => {
   try {
     const sections = await section.find({});
-    res.status(200).json(sections);
+    res.status(200).json({sections});
   } catch (error) {
     console.log("error: ", error);
     res.json({ message: "There was an error getting all sections" });
@@ -21,7 +21,7 @@ const getByFilter = async (req, res) => {
     if (filter) {
       const sections = await section.find({ name: { $regex: filter, $options: "i" } });
       console.log(sections);
-      res.status(200).json(sections);
+      res.status(200).json({sections});
       return;
     }
 

@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import React from "react";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import ErrorBoundary from "./components/ErrorBoundary.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -14,7 +15,7 @@ const queryClient = new QueryClient({
       suspense: true,
     },
   },
-})
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -22,7 +23,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <ContextProvider>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </ContextProvider>
       </QueryClientProvider>
     </BrowserRouter>

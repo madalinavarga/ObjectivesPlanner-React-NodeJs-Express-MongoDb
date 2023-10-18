@@ -59,6 +59,7 @@ function SideNavigation({ ...props }: Props) {
     }
     setPage(page - 1);
   };
+  console.log(sectionsQuery.data);
 
   return (
     <div className="bg-gray-700 text-white h-[100vh]">
@@ -70,7 +71,7 @@ function SideNavigation({ ...props }: Props) {
       </div>
       <SearchBar onChange={setSearch} />
       <ul className="flex flex-col gap-y-4">
-        {sectionsQuery.data?.sections.map((section: Section) => (
+        {sectionsQuery.data?.sections?.map((section: Section) => (
           <div key={section._id} className="flex flex-row gap-x-4">
             <li onClick={() => handleObjectiveSelected(section)} className="cursor-pointer">
               {section.name}
